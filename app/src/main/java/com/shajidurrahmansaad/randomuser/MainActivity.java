@@ -6,9 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -60,6 +62,20 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: creating request
         requestQueue = Volley.newRequestQueue(this);
+        random();
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Getting new ", Toast.LENGTH_SHORT).show();
+                random();
+            }
+        });
+
+
+    }
+
+    public void random(){
 
         JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.GET, "https://randomuser.me/api", null, new Response.Listener<JSONObject>() {
             @Override
@@ -78,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     String title = name.getString("title");
                     String first = name.getString("first");
                     String last = name.getString("last");
-                    nameText.setText(title + first + last + "");
+                    nameText.setText(title + " " + first +" "+ last + "");
 
                     // TODO: email
                     String email = info1.getString("email");
@@ -117,11 +133,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(jsonObject);
-
-    }
-
-    public void random(){
-
     }
 
 }
